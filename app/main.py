@@ -9,12 +9,9 @@ def main():
     print("Client connected.")
     while conn:
         receive = conn.recv(2048)
-        print(f"raw: {receive}")
-        decoded = str(receive, encoding='utf-8')
-        print(f"decoded: {decoded}")
+        decoded = receive.decode('utf-8')
         splitted = receive.split()
-        print(f"splitted: {splitted}")
-        if receive[1] == "/":
+        if splitted[1] == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
         else:
             conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
