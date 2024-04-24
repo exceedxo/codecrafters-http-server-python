@@ -21,6 +21,11 @@ def main():
         elif "/echo/" in path:
             split_path = path.split("/echo/")
             print(f"split path: {split_path}")
+            string = split_path[1]
+            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
+            print(f"Sending response: {send_string}")
+            encoded_string = send_string.encode()
+            conn.send(encoded_string)
         else:
             conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
