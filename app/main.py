@@ -10,8 +10,8 @@ def main():
     conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
     while conn:
         receive = conn.recv(2048)
-        if not receive:
-            break
+        print(receive)
+
 
 if __name__ == "__main__":
     main()
