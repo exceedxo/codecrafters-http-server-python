@@ -10,7 +10,7 @@ def main():
     while conn:
         receive = conn.recv(2048)
         print(f"raw: {receive}")
-        decoded = receive.decode('utf-8')
+        decoded = str(receive, encoding='utf-8')
         print(f"decoded: {decoded}")
         splitted = receive.split()
         print(f"splitted: {splitted}")
