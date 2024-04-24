@@ -10,7 +10,7 @@ def main():
     while conn:
         receive = conn.recv(2048)
         receive.decode()
-        receive.split(" ")
+        receive.split()
         print(f"PATH: {receive}")
         if receive[1] == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
