@@ -22,7 +22,7 @@ def main():
             split_path = path.split("/echo/")
             print(f"split path: {split_path}")
             string = split_path[1]
-            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
+            send_string = f"HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
             encoded_string = send_string.encode()
             conn.send(encoded_string)
         else:
