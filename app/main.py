@@ -17,7 +17,7 @@ def main():
         parsed = decode_and_split(receive)
         path = parsed[1] if len(parsed) >= 1 else parsed[0]
         if path == "/":
-            conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
+            conn.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
         elif "/echo/" in path:
             split_path = path.split("/echo/")
             string = split_path[1]
@@ -25,7 +25,7 @@ def main():
             encoded_string = send_string.encode()
             conn.sendall(encoded_string)
         else:
-            conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
+            conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
 if __name__ == "__main__":
     main()
