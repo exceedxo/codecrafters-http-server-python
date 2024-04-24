@@ -25,7 +25,7 @@ def main():
             print(f"[M] Split Path: {split_path}")
             string = split_path[1]
             print(f"[M] String: {string}")
-            send_string = f"HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
+            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
             print(f"[M] Send String:\n{send_string}")
             encoded_string = send_string.encode()
             conn.sendall(encoded_string)
