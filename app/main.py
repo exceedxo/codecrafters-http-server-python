@@ -22,8 +22,11 @@ def main():
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
         elif "/echo/" in path:
             split_path = path.split("/echo/")
+            print(f"[M] Split Path: {split_path}")
             string = split_path[1]
+            print(f"[M] String: {string}")
             send_string = f"HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n{string}"
+            print(f"[M] Send String: {send_string}")
             encoded_string = send_string.encode()
             conn.send(encoded_string)
         else:
