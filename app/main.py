@@ -17,6 +17,7 @@ def main():
         parsed = decode_and_split(receive)
         if len(parsed) == 0:
             conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
+        print(parsed)
         path = parsed[1]
         if path == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
