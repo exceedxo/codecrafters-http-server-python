@@ -10,10 +10,10 @@ def main():
     while conn:
         receive = conn.recv(2048)
         print(f"raw: {receive}")
-        receive.decode('utf-8')
-        print(f"decoded: {receive}")
-        receive.split()
-        print(f"splitted: {receive}")
+        decoded = receive.decode('utf-8')
+        print(f"decoded: {decoded}")
+        splitted = receive.split()
+        print(f"splitted: {splitted}")
         if receive[1] == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
         else:
