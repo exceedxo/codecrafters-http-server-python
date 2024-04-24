@@ -15,10 +15,7 @@ def main():
     while conn:
         receive = conn.recv(2048)
         parsed = decode_and_split(receive)
-        if len(parsed) == 0:
-            conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
-        path = parsed[1]
-        print(path)
+        path = parsed[1] if len(parsed) >= 1 else parsed[0]
         if path == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
         elif "/echo/" in path:
