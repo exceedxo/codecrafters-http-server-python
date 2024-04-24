@@ -25,7 +25,7 @@ def main():
             encoded_string = send_string.encode()
             conn.sendall(encoded_string)
         else:
-            conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+            conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
 if __name__ == "__main__":
     main()
