@@ -10,7 +10,7 @@ def main():
     while conn:
         receive = conn.recv(2048)
         decoded = receive.decode('utf-8')
-        splitted = receive.split()
+        splitted = decoded.split()
         if splitted[1] == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
         else:
