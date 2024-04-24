@@ -7,7 +7,8 @@ def main():
     print("Waiting for client...")
     (conn, address) = server_socket.accept() # wait for client
     print("Client connected")
-    conn.send("HTTP/1.1 200 OK\r\n\r\n")
+    while conn:
+        print("connection ongoing")
 
 if __name__ == "__main__":
     main()
