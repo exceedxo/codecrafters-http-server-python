@@ -16,12 +16,11 @@ def main():
         receive = conn.recv(2048)
         parsed = decode_and_split(receive)
         path = parsed[1]
-        string = path.split("/")[-1]
-        if string:    
-            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
-            print(f"Sending response: {send_string}")
-            encoded_string = send_string.encode()
-            conn.send(encoded_string)
+        string = path.split("/")[-1] 
+        send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
+        print(f"Sending response: {send_string}")
+        encoded_string = send_string.encode()
+        conn.send(encoded_string)
 
 if __name__ == "__main__":
     main()
