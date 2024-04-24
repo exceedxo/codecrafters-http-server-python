@@ -17,8 +17,10 @@ def main():
         parsed = decode_and_split(receive)
         path = parsed[1]
         string = path.split("/")[-1]
-        send_string = string.encode(f"HTTP/1.1 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}")
-        conn.send(send_string)
+        if string:    
+            send_string = f"HTTP/1.1 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
+            encoded_string = send_string.encode()
+            conn.send(encoded_string)
 
 if __name__ == "__main__":
     main()
