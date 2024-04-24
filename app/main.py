@@ -18,7 +18,8 @@ def main():
         path = parsed[1]
         string = path.split("/")[-1]
         if string:    
-            send_string = f"HTTP/1.1 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
+            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent length: {len(string)}\r\n\r\n{string}"
+            print(f"Sending response: {send_string}")
             encoded_string = send_string.encode()
             conn.send(encoded_string)
 
