@@ -29,7 +29,7 @@ def new_connection(conn: socket):
                 conn.sendall(encoded_string) #
             else:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
-        elif "/files/" in path and os.path.exists(path):
+        elif "/files/" in path:
             print("exists")
             split_path = path.split("/files/")
             file_name = split_path[1]
