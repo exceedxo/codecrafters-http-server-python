@@ -25,7 +25,9 @@ def main():
             encoded_string = send_string.encode()
             conn.sendall(encoded_string)
         elif path == "/user-agent":
-            print(path)
+            print(parsed[3])
+            print(parsed[4])
+            print(parsed[5])
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
