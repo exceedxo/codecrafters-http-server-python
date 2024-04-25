@@ -28,6 +28,7 @@ def main():
             print(parsed[3])
             print(parsed[4])
             print(parsed[5])
+            print(parsed[6])
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
