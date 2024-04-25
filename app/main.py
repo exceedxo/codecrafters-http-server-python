@@ -21,9 +21,11 @@ def main():
         elif "/echo/" in path:
             split_path = path.split("/echo/")
             string = split_path[1]
-            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}\r\n"
+            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}"
             encoded_string = send_string.encode()
             conn.sendall(encoded_string)
+        elif path == "/user-agent":
+            print(path)
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
