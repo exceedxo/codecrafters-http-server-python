@@ -38,7 +38,7 @@ async def main():
     print("Waiting for client...")
     while True:
         (conn, address) = server_socket.accept()
-        asyncio.create_task(new_connection(conn))
+        new_connection(conn)
     
 if __name__ == "__main__":
     asyncio.run(main())
