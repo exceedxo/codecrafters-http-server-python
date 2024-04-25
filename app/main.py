@@ -6,7 +6,7 @@ def decode_and_split(bytes: bytes):
     splitted = decoded.split()
     return splitted
 
-async def new_connection(conn: socket):
+def new_connection(conn: socket):
     print("Client connected.")
     while conn:
         receive = conn.recv(2048)
@@ -31,7 +31,7 @@ async def new_connection(conn: socket):
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
-async def main():
+def main():
     print("Starting server...")
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     print("Server started")
