@@ -32,11 +32,11 @@ async def new_connection(conn: socket):
             await conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
 async def main():
-    print("Starting server...")
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
-    print("Server started")
-    print("Waiting for client...")
     while True:
+        print("Starting server...")
+        server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
+        print("Server started")
+        print("Waiting for client...")
         (conn, address) = await server_socket.accept()
         task = asyncio.create_task(new_connection(conn))
         await task
