@@ -38,7 +38,8 @@ def main():
     print("Waiting for client...")
     while True:
         (conn, address) = server_socket.accept()
-        Thread(target=new_connection, args=(conn)).run()
+        thread = Thread(target=new_connection, args=(conn,))
+        thread.start()
 
 if __name__ == "__main__":
     main()
