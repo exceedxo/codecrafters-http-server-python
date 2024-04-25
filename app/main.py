@@ -1,5 +1,6 @@
 import socket
 from threading import Thread
+import os
 
 def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
@@ -27,7 +28,13 @@ def new_connection(conn: socket):
                 encoded_string = send_string.encode()
                 conn.sendall(encoded_string) #
             else:
-                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")        
+                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
+        elif "/files/" in path and os.path.exists(path):
+            split_path = path.split("/files/")
+            file_name = split_path[1]
+            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file_name)}\r\n\r\n{file_name}".encode()
+            conn.sendall(send_string)
+                 
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
