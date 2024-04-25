@@ -29,7 +29,7 @@ def main():
             if string:
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}"
                 encoded_string = send_string.encode()
-                conn.sendall(encoded_string)
+                conn.sendall(encoded_string) #
             else:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")        
         else:
