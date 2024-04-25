@@ -30,9 +30,11 @@ def new_connection(conn: socket):
             else:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
         elif "/files/" in path and os.path.exists(path):
+            print("exists")
             split_path = path.split("/files/")
             file_name = split_path[1]
             send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file_name)}\r\n\r\n{file_name}".encode()
+            print(send_string)
             conn.sendall(send_string)
                  
         else:
