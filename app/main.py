@@ -25,10 +25,11 @@ def main():
             encoded_string = send_string.encode()
             conn.sendall(encoded_string)
         elif path == "/user-agent":
-            print(parsed[3])
-            print(parsed[4])
-            print(parsed[5])
-            print(parsed[6])
+            string = parsed[6]
+            if string:
+                send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}"
+            else:
+                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")        
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
