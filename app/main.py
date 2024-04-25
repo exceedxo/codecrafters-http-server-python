@@ -7,7 +7,7 @@ def decode_and_split(bytes: bytes):
     return splitted
 
 def new_connection(conn: socket):
-    print("Client connected.")
+    print("New client connected.")
     while conn:
         receive = conn.recv(2048)
         parsed = decode_and_split(receive)
@@ -34,8 +34,7 @@ def new_connection(conn: socket):
 def main():
     print("Starting server...")
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
-    print("Server started")
-    print("Waiting for client...")
+    print("Server started!")
     while True:
         (conn, address) = server_socket.accept()
         thread = Thread(target=new_connection, args=(conn,))
