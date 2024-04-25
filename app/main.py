@@ -1,7 +1,7 @@
 import socket
 import asyncio
 
-async def decode_and_split(bytes: bytes):
+def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
     splitted = decoded.split()
     return splitted
@@ -36,9 +36,14 @@ async def main():
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     print("Server started")
     print("Waiting for client...")
+    connections = []
     while True:
         (conn, address) = server_socket.accept()
-        new_connection(conn)
+        if conn:
+            connections.append(conn)
+        else:
+            break
+    await asyncio.gather(*connections)
     
 if __name__ == "__main__":
     asyncio.run(main())
