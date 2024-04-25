@@ -1,16 +1,12 @@
 import socket
+import asyncio
 
-def decode_and_split(bytes: bytes):
+async def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
     splitted = decoded.split()
     return splitted
 
-def main():
-    print("Starting server...")
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
-    print("Server started")
-    print("Waiting for client...")
-    (conn, address) = server_socket.accept()
+async def new_connection(conn: socket):
     print("Client connected.")
     while conn:
         receive = conn.recv(2048)
@@ -35,5 +31,14 @@ def main():
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
+async def main():
+    print("Starting server...")
+    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
+    print("Server started")
+    print("Waiting for client...")
+    while True:
+        (conn, address) = await server_socket.accept()
+        new_connection(conn)
+    
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
