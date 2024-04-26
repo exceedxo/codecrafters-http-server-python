@@ -32,7 +32,7 @@ def new_connection(conn: socket, arguments: Namespace):
             send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}".encode()
             conn.sendall(send_string)
         elif path == "/user-agent":
-            usr_agent_str = parsed[6].split()[1]
+            usr_agent_str = parsed[3].split()[1]
             if string:
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}".encode()
                 conn.sendall(send_string)
