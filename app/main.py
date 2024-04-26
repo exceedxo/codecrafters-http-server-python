@@ -15,7 +15,6 @@ def new_connection(conn: socket, arguments: Namespace):
         receive = conn.recv(2048)
         parsed = decode_and_split(receive)
         path = parsed[1]
-        print(f"Path: {path}")
         if path == "/":
             conn.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
         elif "/echo/" in path:
@@ -34,6 +33,8 @@ def new_connection(conn: socket, arguments: Namespace):
             split_path = path.split("/files/")
             file_name = split_path[-1]
             directory_path = arguments.directory
+            if not directory_path:
+                conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
             full_file_path = os.path.join(directory_path, file_name)
             if os.path.exists(full_file_path):
                 file = open(full_file_path, "r").read()
