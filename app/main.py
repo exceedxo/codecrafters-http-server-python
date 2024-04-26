@@ -35,11 +35,12 @@ def new_connection(conn: socket, arguments: Namespace):
             split_path = path.split("/files/")
             file_name = split_path[-1]
             full_file_path = arguments.directory + file_name
-            if not os.path.exists(full_file_path):
-                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
-            file = open(full_file_path, "r").read()
-            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
-            conn.sendall(send_string)               
+            if os.path.exists(full_file_path):
+                file = open(full_file_path, "r").read()
+                send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
+                conn.sendall(send_string)   
+            else:
+                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")            
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
