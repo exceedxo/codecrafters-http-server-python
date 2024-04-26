@@ -34,14 +34,14 @@ def new_connection(conn: socket, arguments: Namespace):
             file_name = split_path[-1]
             directory_path = arguments.directory
             if not directory_path:
-                conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+                conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
             full_file_path = os.path.join(directory_path, file_name)
             if os.path.exists(full_file_path):
                 file = open(full_file_path, "r").read()
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
                 conn.sendall(send_string)   
             else:
-                conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")   
+                conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n") 
         else:
             conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
