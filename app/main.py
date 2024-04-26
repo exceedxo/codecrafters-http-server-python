@@ -34,7 +34,9 @@ def new_connection(conn: socket):
             print(split_path)
             file_name = split_path[-1]
             print(file_name)
-            file = open(file_name, "r") #
+            if not os.path.exists(path):
+                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
+            file = open(file_name, "r")
             print(file)
             send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
             print(send_string)
