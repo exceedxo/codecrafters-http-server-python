@@ -31,7 +31,7 @@ def new_connection(conn: socket, arguments: Namespace):
             else:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
         elif "/files/" in path:
-            print("Getting file...")
+            print("Getting file...") #
             split_path = path.split("/files/")
             print(f"Split path: {split_path}")
             file_name = split_path[-1]
@@ -48,6 +48,7 @@ def new_connection(conn: socket, arguments: Namespace):
             else:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")            
         else:
+            print("doesnt exist")
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
 def main():
