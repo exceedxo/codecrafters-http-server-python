@@ -33,11 +33,8 @@ def new_connection(conn: socket, arguments: Namespace):
             conn.sendall(send_string)
         elif path == "/user-agent":
             usr_agent_str = parsed[3].split()[1]
-            if string:
-                send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}".encode()
-                conn.sendall(send_string)
-            else:
-                conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(usr_agent_str)}\r\n\r\n{usr_agent_str}".encode()
+            conn.sendall(send_string)
         elif "/files/" in path and method == "GET":
             split_path = path.split("/files/")
             file_name = split_path[-1]
