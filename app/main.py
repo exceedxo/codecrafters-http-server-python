@@ -37,7 +37,7 @@ def new_connection(conn: socket):
             if not os.path.exists(path):
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
             try:
-                file = open(file_name, "r")
+                file = open(path, "r")
             except:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
             print(file)
