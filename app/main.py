@@ -2,13 +2,14 @@ import socket
 from threading import Thread
 import os
 import argparse
+from argparse import Namespace
 
 def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
     splitted = decoded.split()
     return splitted
 
-def new_connection(conn: socket):
+def new_connection(conn: socket, arguments: Namespace):
     print("New client connected.")
     while conn:
         receive = conn.recv(2048)
@@ -19,31 +20,25 @@ def new_connection(conn: socket):
         elif "/echo/" in path:
             split_path = path.split("/echo/")
             string = split_path[1]
-            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}"
-            encoded_string = send_string.encode()
-            conn.sendall(encoded_string)
+            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}".encode()
+            conn.sendall(send_string)
         elif path == "/user-agent":
             string = parsed[6]
             if string:
-                send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}"
-                encoded_string = send_string.encode()
-                conn.sendall(encoded_string) #
+                send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}".encode()
+                conn.sendall(send_string)
             else:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
         elif "/files/" in path:
+            if not arguments:
+                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
             split_path = path.split("/files/")
-            print(split_path)
             file_name = split_path[-1]
-            print(file_name)
-            if not os.path.exists(path):
+            full_file_path = arguments.directory + file_name
+            if not os.path.exists(full_file_path):
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
-            try:
-                file = open(path, "r")
-            except:
-                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
-            print(file)
+            file = open(full_file_path, "r")
             send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
-            print(send_string)
             conn.sendall(send_string)               
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
@@ -54,11 +49,10 @@ def main():
     argument_parser: argparse.ArgumentParser = argparse.ArgumentParser()
     argument_parser.add_argument("--directory")
     arguments = argument_parser.parse_args()
-    print(arguments)
     print("Server started!")
     while True:
         (conn, address) = server_socket.accept()
-        thread = Thread(target=new_connection, args=(conn,))
+        thread = Thread(target=new_connection, args=(conn, arguments))
         thread.start()
 
 if __name__ == "__main__":
