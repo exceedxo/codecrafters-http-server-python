@@ -36,7 +36,8 @@ def new_connection(conn: socket, arguments: Namespace):
             print(f"Split path: {split_path}")
             file_name = split_path[-1]
             print(f"File name: {file_name}")
-            full_file_path = arguments.directory + file_name
+            directory_path = arguments.directory
+            full_file_path = directory_path + file_name
             print(f"Full file path: {full_file_path}")
             exists = os.path.isfile(full_file_path)
             if exists:
