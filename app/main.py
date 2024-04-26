@@ -6,13 +6,13 @@ from argparse import Namespace
 
 def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
-    splitted = decoded.split()
-    return splitted
-
-def decode_and_find_contents(bytes: bytes):
-    decoded = bytes.decode("utf-8")
     splitted = decoded.split("\r\n")
     return splitted
+
+#def decode_and_find_contents(bytes: bytes):
+#    decoded = bytes.decode("utf-8")
+#    splitted = decoded.split("\r\n")
+#    return splitted
 
 def new_connection(conn: socket, arguments: Namespace):
     print("New client connected.")
@@ -72,7 +72,7 @@ def main():
     arguments = argument_parser.parse_args()
     print("Server started!")
     while True:
-        (conn, address) = server_socket.accept()
+        (conn,) = server_socket.accept()
         thread = Thread(target=new_connection, args=(conn, arguments))
         thread.start()
 
