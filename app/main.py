@@ -29,9 +29,7 @@ def new_connection(conn: socket, arguments: Namespace):
                 conn.sendall(send_string)
             else:
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
-        elif "/files/" in path: #
-            if not arguments:
-                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
+        elif "/files/" in path:
             split_path = path.split("/files/")
             file_name = split_path[-1]
             full_file_path = arguments.directory + file_name
