@@ -29,28 +29,20 @@ def new_connection(conn: socket, arguments: Namespace):
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(string)}\r\n\r\n{string}".encode()
                 conn.sendall(send_string)
             else:
-                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
+                conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
         elif "/files/" in path:
-            print("Getting file...") #
             split_path = path.split("/files/")
-            print(f"Split path: {split_path}")
             file_name = split_path[-1]
-            print(f"File name: {file_name}")
             directory_path = arguments.directory
             full_file_path = os.path.join(directory_path, file_name)
-            print(f"Full file path: {full_file_path}")
             if os.path.exists(full_file_path):
-                print("is file")
                 file = open(full_file_path, "r").read()
-                print(file)
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
                 conn.sendall(send_string)   
             else:
-                print("doesnt exist")
-                t = conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
-                print(t)    
+                conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")   
         else:
-            conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
+            conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
 def main():
     print("Starting server...")
