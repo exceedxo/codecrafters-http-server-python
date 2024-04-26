@@ -48,6 +48,9 @@ def new_connection(conn: socket, arguments: Namespace):
             split_path = path.split("/files/")
             file_name = split_path[-1]
             directory_path = arguments.directory
+            contents = receive.split("\r\n")
+            print(contents)
+            print(contents[-1])
             if not directory_path:
                 conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
             full_file_path = os.path.join(directory_path, file_name)
