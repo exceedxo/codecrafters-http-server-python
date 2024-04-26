@@ -47,7 +47,8 @@ def new_connection(conn: socket, arguments: Namespace):
                 conn.sendall(send_string)   
             else:
                 print("doesnt exist")
-                conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")            
+                t = conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
+                print(t)    
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
