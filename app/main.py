@@ -9,10 +9,11 @@ def decode_and_split(bytes: bytes):
     splitted = decoded.split("\r\n")
     return splitted
 
-#def decode_and_find_contents(bytes: bytes):
-#    decoded = bytes.decode("utf-8")
-#    splitted = decoded.split("\r\n")
-#    return splitted
+def send_not_found(conn: socket, content_length: bool):
+    if content_length:
+        conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
+    else:
+        conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
 def new_connection(conn: socket, arguments: Namespace):
     print("New client connected.")
@@ -39,28 +40,28 @@ def new_connection(conn: socket, arguments: Namespace):
             file_name = split_path[-1]
             directory_path = arguments.directory
             if not directory_path:
-                conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
+                send_not_found(conn, True)
             full_file_path = os.path.join(directory_path, file_name)
             if os.path.exists(full_file_path):
                 file = open(full_file_path, "r").read()
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
                 conn.sendall(send_string)   
             else:
-                conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n") 
+                send_not_found(conn, True)
         elif "files" in path and method == "POST":
             split_path = path.split("/files/")
             file_name = split_path[-1]
             directory_path = arguments.directory
             contents = parsed[-1]
             if not directory_path:
-                conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
+                send_not_found(conn, True)
             full_file_path = os.path.join(directory_path, file_name)
             file = open(full_file_path, "w")
             file.write(contents)
             file.close()
             conn.sendall(b"HTTP/1.1 201 OK\r\n\r\n")
         else:
-            conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+            send_not_found(conn, False)
 
 def main():
     print("Starting server...")
