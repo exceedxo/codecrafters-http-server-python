@@ -6,13 +6,14 @@ from argparse import Namespace
 
 def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
-    splitted = decoded.split()
+    splitted = decoded.split("\r\n")
     return splitted
 
 def new_connection(conn: socket, arguments: Namespace):
     print("New client connected.")
     while conn:
         receive = conn.recv(2048)
+        print(receive)
         parsed = decode_and_split(receive)
         print(parsed)
         method = parsed[0]
