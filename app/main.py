@@ -14,6 +14,8 @@ def new_connection(conn: socket, arguments: Namespace):
     while conn:
         receive = conn.recv(2048)
         parsed = decode_and_split(receive)
+        print(parsed)
+        method = parsed[0]
         path = parsed[1]
         if path == "/":
             conn.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
@@ -29,7 +31,7 @@ def new_connection(conn: socket, arguments: Namespace):
                 conn.sendall(send_string)
             else:
                 conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
-        elif "/files/" in path:
+        elif "/files/" in path and method == "GET":
             split_path = path.split("/files/")
             file_name = split_path[-1]
             directory_path = arguments.directory
@@ -42,6 +44,19 @@ def new_connection(conn: socket, arguments: Namespace):
                 conn.sendall(send_string)   
             else:
                 conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n") 
+        elif "files" in path and method == "POST":
+            split_path = path.split("/files/")
+            file_name = split_path[-1]
+            directory_path = arguments.directory
+            if not directory_path:
+                conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
+            full_file_path = os.path.join(directory_path, file_name)
+            if os.path.exists(full_file_path):
+                file = open(full_file_path, "r").read()
+                send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
+                conn.sendall(send_string)   
+            else:
+                conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")            
         else:
             conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
