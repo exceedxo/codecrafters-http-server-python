@@ -20,8 +20,10 @@ def new_connection(conn: socket, arguments: Namespace):
         receive = conn.recv(2048)
         parsed = decode_and_split(receive)
         print(parsed)
-        method = parsed[0]
-        path = parsed[1]
+        request = parsed[0]
+        request_split = request.split()
+        method = request_split[0]
+        path = request_split[1]
         if path == "/":
             conn.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
         elif "/echo/" in path:
