@@ -6,6 +6,11 @@ from argparse import Namespace
 
 def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
+    splitted = decoded.split()
+    return splitted
+
+def decode_and_find_contents(bytes: bytes):
+    decoded = bytes.decode("utf-8")
     splitted = decoded.split("\r\n")
     return splitted
 
@@ -13,7 +18,6 @@ def new_connection(conn: socket, arguments: Namespace):
     print("New client connected.")
     while conn:
         receive = conn.recv(2048)
-        print(receive)
         parsed = decode_and_split(receive)
         print(parsed)
         method = parsed[0]
@@ -49,9 +53,8 @@ def new_connection(conn: socket, arguments: Namespace):
             split_path = path.split("/files/")
             file_name = split_path[-1]
             directory_path = arguments.directory
-            contents = receive.split("\r\n")
+            contents = decode_and_find_contents(receive)[-1]
             print(contents)
-            print(contents[-1])
             if not directory_path:
                 conn.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
             full_file_path = os.path.join(directory_path, file_name)
