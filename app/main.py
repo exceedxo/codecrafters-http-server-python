@@ -1,6 +1,7 @@
 import socket
 from threading import Thread
 import os
+import argparse
 
 def decode_and_split(bytes: bytes):
     decoded = bytes.decode("utf-8")
@@ -50,6 +51,10 @@ def new_connection(conn: socket):
 def main():
     print("Starting server...")
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
+    argument_parser: argparse.ArgumentParser = argparse.ArgumentParser()
+    argument_parser.add_argument("--directory")
+    arguments = argument_parser.parse_args()
+    print(arguments)
     print("Server started!")
     while True:
         (conn, address) = server_socket.accept()
