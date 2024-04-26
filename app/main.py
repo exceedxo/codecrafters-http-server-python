@@ -33,7 +33,7 @@ def new_connection(conn: socket, arguments: Namespace):
             split_path = path.split("/files/")
             file_name = split_path[-1]
             full_file_path = arguments.directory + file_name
-            if os.path.exists(full_file_path):
+            if os.path.isfile(full_file_path) is True:
                 file = open(full_file_path, "r").read()
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
                 conn.sendall(send_string)   
