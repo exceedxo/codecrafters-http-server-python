@@ -72,7 +72,7 @@ def main():
     arguments = argument_parser.parse_args()
     print("Server started!")
     while True:
-        (conn,) = server_socket.accept()
+        (conn, _) = server_socket.accept()
         thread = Thread(target=new_connection, args=(conn, arguments))
         thread.start()
 
