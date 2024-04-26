@@ -59,6 +59,7 @@ def new_connection(conn: socket, arguments: Namespace):
             full_file_path = os.path.join(directory_path, file_name)
             file = open(full_file_path, "w")
             file.write(contents)
+            file.close()
             conn.sendall(b"HTTP/1.1 201 OK\r\n\r\n")
         else:
             conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
