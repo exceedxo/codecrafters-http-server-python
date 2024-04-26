@@ -46,9 +46,9 @@ def new_connection(conn: socket, arguments: Namespace):
                 send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
                 conn.sendall(send_string)   
             else:
+                print("doesnt exist")
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")            
         else:
-            print("doesnt exist")
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
 def main():
