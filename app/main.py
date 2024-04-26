@@ -36,11 +36,12 @@ def new_connection(conn: socket):
             print(file_name)
             if not os.path.exists(path):
                 conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
-            file = open(file_name, "r")
-            print(file)
-            send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
-            print(send_string)
-            conn.sendall(send_string)               
+            else:
+                file = open(file_name, "r")
+                print(file)
+                send_string = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file)}\r\n\r\n{file}".encode()
+                print(send_string)
+                conn.sendall(send_string)               
         else:
             conn.sendall(b"HTTP/1.1 404 NOT FOUND\r\n\r\n")
 
